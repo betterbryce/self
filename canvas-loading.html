@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Loading</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<style type="text/css">
+    body {
+      background-color: #F7F7F7;
+    }
+    h1{
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    small{
+      font-size: 15px;
+      font-weight: 100;
+      letter-spacing: 1px;
+    }
+    .btn{
+        padding-left: 150px;
+    }
+    .btn a{
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 16px;
+        color: #6ec3ff;
+        text-decoration: none;
+        border: 1px solid #6ec3ff;
+        border-radius: 3px;
+        margin-left: 20px;
+    }
+</style>
+<body>
+    <h1>Canvas Loading <small>--> Powered by lin</small></h1>
+    <div class="btn">
+        <a href="javascript:void(0)" class="circle">圆型</a>
+        <a href="javascript:void(0)" class="line">线型</a>
+    </div>
+    <canvas id="canvas" width="500" height="400" style="background:#F7F7F7;">
+    <script type="text/javascript">
+
+        var canvas = document.getElementById('canvas'),
+            context = canvas.getContext('2d'),
+            centerX = canvas.width/2,
+            centerY = canvas.height/2,
+            rad = Math.PI*2/100,
+            speed = 0.1,
+            speeded = 0.5,
+            mod = 'line'; //circle 圆   line 线
+
+
+        /* 圆形loading */
+
+        //圆形文字展示
+        function text(n){
+            context.save();
+            context.fillStyle = "#F47C7C";
+            context.font = "40px Arial";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+            context.fillText(n.toFixed(0)+"%", centerX, centerY);
+            context.restore();
+        }
+
+        //绘制圆进度
+        function blueCircle(n){
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "#49f";
+            context.lineWidth = 12;
+            context.arc(centerX, centerY, 100 , -Math.PI/2, -Math.PI/2 + n*rad, false);
+            context.stroke();
+            context.restore();
+        }
+        //绘制圆初始化
+        function whiteCircle(){
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "#A5DEF1";
+            context.lineWidth = 12;
+            context.arc(centerX, centerY, 100 , 0, Math.PI*2, false);
+            context.stroke();
+            context.closePath();
+            context.restore();
+        }
+
+        /* 线型loading */
+
+        //绘制线条底图
+        function whiteLine(){
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "#A5DEF1";
+            context.lineWidth = 20;
+            context.moveTo(100,centerY);
+            context.lineTo(400,centerY);
+            context.lineCap="round"; //线条顶端圆形
+            context.stroke();
+            context.closePath();
+            context.restore();
+        }
+
+        //绘制蓝色线条进度图
+        function buleLine(n){
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "#49f";
+            context.lineWidth = 20;
+            context.moveTo(100,centerY);
+            context.lineTo(3*n+100,centerY);
+            context.lineCap="round"; //线条顶端圆形
+            context.stroke();
+            context.closePath();
+            context.restore();
+        }
+
+        //绘制线条进度文字
+        function textLine(n){
+
+            //文字居中颗直接使用圆形text(),这里处理和进度一起前进的方法
+            context.save();
+            context.fillStyle = "#F47C7C";
+            context.font = "18px Arial";
+            context.fillText(n.toFixed(0)+"%", 3*n+65, centerY-20);
+            context.restore();
+        }
+
+        (function drawFrame(){
+            window.requestAnimationFrame(drawFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (mod=='circle') {
+                whiteCircle();
+                text(speed);
+                blueCircle(speed);
+            }
+            else if(mod=='line'){
+
+                whiteLine();
+                buleLine(speed);
+                textLine(speed);
+                speeded = 0.3;
+            }
+
+            if(speed > 100){ return;}
+            speed += speeded;
+        }());
+
+        //绑定切换click展示形状
+        document.querySelector(".line").addEventListener("click", function() {
+            mod = 'line';
+            speed = 0;//重置速度
+        }, false);
+
+        document.querySelector(".circle").addEventListener("click", function() {
+            mod = 'circle';
+            speed = 0;//重置速度
+        }, false);
+    </script>
+</body>
+</html>
