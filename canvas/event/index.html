@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户交互--事件绑定</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <canvas id="canvas" width='500' height="500" style="background:#000">
+        <p>you browser not support canvas!<p>
+    </canvas>
+    <script src='../event/js/utils.js'></script>
+    <script>
+        window.onload = function(){
+            var canvas = document.getElementById('canvas'),
+                //将canvas传入，该方法会返回一个包含属性x和y的对象
+                mouse = utils.captureMouse(canvas),  //鼠标、键盘
+                touch = utils.captureTouch(canvas);  //触摸
+
+            /* 绑定鼠标事件
+                鼠标事件一共可以分为：
+                    mousedown
+                    mouseup
+                    click
+                    dblclick
+                    mousewheel
+                    mouseover
+                    mouseout
+                    mousemove
+             */
+
+            //为canvas绑定mousemove事件，当鼠标经过canvas的时候打印出当前鼠标相对于canvas的坐标值
+            canvas.addEventListener('mousemove',function(event){
+                console.log("x:" +mouse.x +",y:" + mouse.y);
+            });
+
+            /* 绑定键盘事件
+                键盘事件就两个：
+                    keydown
+                    keyup
+            */
+
+            //定义键盘事件
+            function onKeyboard(event){
+                switch (event.keyCode){
+                    case 38:
+                        console.log('up!');
+                        break;
+                    case 40:
+                        console.log('down!');
+                        break;
+                    case 37:
+                        console.log('left!');
+                        break;
+                    case 39:
+                        console.log('right!');
+                        break;
+                    default:
+                        console.log(event.keyCode);
+                }
+            }
+            //为window对象绑定键盘事件
+            window.addEventListener('keydown',onKeyboard,false);
+
+
+            /* 绑定触摸事件
+                触摸事件包括以下3种：
+                    touchstart
+                    touchend
+                    touchmove
+            */
+            canvas.addEventListener('touchmove',function(event){
+                console.log("x:" +touch.x +",y:" + touch.y);
+            });
+       }
+   </script>
+</body>
+</html>
