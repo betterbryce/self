@@ -1,0 +1,24 @@
+*{margin: 0; padding: 0;}
+*{box-sizing: border-box;}
+*::before{box-sizing: border-box;}
+*::after{box-sizing: border-box;}
+
+.resumeEditor div{
+    /*text-align: center;*/
+}
+
+.resumeEditor h1{
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.8em;
+}
+.resumeEditor h2{
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0.5em 0;
+}
+
+.resumeEditor ul li{
+    font-size: 1em;
+    line-height: 1.8em;
+}
